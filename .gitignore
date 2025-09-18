@@ -1,0 +1,28 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Build artifacts
+build/
+dist/
+src/build
+src/dist
+*.spec
+*.exe
+
+# Dummy and output data
+*.xlsx
+*.csv
+*.log
+data/
+dummy_data/
+
+# IDE & system files
+.vscode/
+.idea/
+*.swp
+*.bak
+.DS_Store
+Thumbs.db
