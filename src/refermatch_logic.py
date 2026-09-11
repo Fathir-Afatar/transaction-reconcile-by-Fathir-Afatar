@@ -1,40 +1,65 @@
-import pandas as pd
+# Standard Library
 import re
 
+# Third-party
+import pandas as pd
+
 def extract_ids(text):
+    """
+    Extract numeric IDs ranging from 10 to 20 digits from a given string.
+
+    Args:
+        text (str): The input text to scan for numeric identifiers.
+    
+    Returns:
+        list[str]: A list of matched digit sequences found in the text.
+            Return an empty list if the input is not a valid string.
+    """
     if not isinstance(text, str):
         return[]
     return re.findall(r"\d{10,20}", text)
 
-def proses_referensi(
-    file_transaksi,
-    file_referensi,
-    kolom_transaksi,
-    kolom_nomor,
-    kolom_nama,
-    kolom_tanggal
-):
+def proses_referensi(file_transaksi, file_referensi, kolom_transaksi,
+    kolom_nomor, kolom_nama, kolom_tanggal):
+    """
+    Match transaction records with a reference file using extracted IDs.
+
+    This function reads two Excel files, normalizes the reference identifiers
+    and dates, extracts potential ID candidates from the transaction remarks,
+    and attemps to map each transaction row to its corresponding reference row.
+    This final output includes a new containing the formatted date day
+    and reference name.
+
+    Args:
+        file_transaksi (str): File path to the Excel transaction file.
+        file referensi (str): File path to the Excel reference file.
+        kolom_transaksi (str): Column name in the transaction file containing
+            the description or remarks.
+        kolom_nomor (str): Column name in the reference file holding the unique
+            numeric identifiers.
+        kolom_nama (str): Column name in the reference file containing the names.
+        kolom_tanggal (str): Column name in the reference file containing dates.
     
+    Returns:
+        pd.DataFrame: The processed transaction DataFrame with an additional
+            "Hasil / Results ReferMatch" column containing the matching results.
+    """
     # Load file
     df_transaksi = pd.read_excel(file_transaksi)
     df_referensi = pd.read_excel(file_referensi)
 
     # Normalize Column name
-
     #df_transaksi.columns[kolom_nomor] = df_referensi[kolom_nomor].astype(str).str.strip()
     #df_referensi.columns[kolom_tanggal] = (df_referensi.columns)
 
     # Normalize Column Reference
-
     df_referensi[kolom_nomor] = df_referensi[kolom_nomor].astype(str).str.strip()
     df_referensi[kolom_tanggal] = pd.to_datetime(df_referensi[kolom_tanggal], errors ="coerce")
 
     # Make a new empty column
-
-    df_transaksi["Hasil ReferMatch"] = ""
+    df_transaksi["Hasil / Results ReferMatch"] = ""
 
     # line by line process
-
     for i, row in df_transaksi.iterrows():
         remark = row.get(kolom_transaksi, "")
         kandidat = extract_ids(remark)
@@ -48,7 +73,7 @@ def proses_referensi(
                 nama = ref_row[kolom_nama]
                 cocok = f"{tanggal}. {nama}"
                 break
-        df_transaksi.at[i, "Hasil ReferMatch"] = cocok if cocok else ""
+        df_transaksi.at[i, "Hasil / Results ReferMatch"] = cocok if cocok else ""
 
-    return df_transaksi
+    return df_transaksi, len(df_referensi)
 
