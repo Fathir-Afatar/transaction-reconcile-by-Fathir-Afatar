@@ -97,7 +97,7 @@ This step using the v.2.0 version.
 ---
 
 2. Click the **Select Transaction File** button to select the Excel file and Choose the column.
-![Transaction](assets/Transaction.png.png)
+![Transaction](assets/Transaction.png)
 
 ---
 
