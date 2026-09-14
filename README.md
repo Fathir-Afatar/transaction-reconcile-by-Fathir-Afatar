@@ -60,6 +60,7 @@ Manual reconciliation vs. ReferMatch automation:
 ├── src/               # Python source code files
 ├── LICENSE            # Open-source MIT License
 └── README.md          # Project documentation
+└── requirements.txt   # python package
 ```
 
 ## 🧪 Demo & Sample Data
