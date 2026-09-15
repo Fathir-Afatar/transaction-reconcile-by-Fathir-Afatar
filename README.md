@@ -137,6 +137,11 @@ cd transaction-reconcile-by-fathir\src
 python refermatch_main.py
 ```
 
+---
+## How Does it Work
+![Process](assets/Process_Diagram.png)
+---
+
 ## 📜 Changelog
 Format : [Version] - Date
 ## [v2.0] - 2026-08-31
